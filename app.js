@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { PORT } from './config/env.js';
 
@@ -12,6 +13,14 @@ import arcjectMiddleware from "./middlewares/arcject.middleware.js";
 import workflowRouter from "./routes/workflow.routes.js";
 
 const app = express();
+
+// CORS – allow React dev server and production frontend
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    credentials: true, // Allow cookies (JWT)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 // express have build in middlewares
 app.use(express.json());  // this allows our app to handle json data sent in request or API
